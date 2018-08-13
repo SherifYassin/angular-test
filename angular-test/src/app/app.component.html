@@ -1,0 +1,98 @@
+<mat-sidenav-container class="sidenav-container">
+	<mat-sidenav
+	#drawer
+	class="sidenav"
+	fixedInViewport="true"
+	[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+	[mode]="(isHandset$ | async) ? 'over' : 'side'"
+	[opened]="!(isHandset$ | async)">
+	<mat-toolbar color="primary">Menu</mat-toolbar>
+	<mat-nav-list>
+		<a mat-list-item href="#">Link 1 Name</a>
+		<a mat-list-item href="#">Link 2</a>
+		<a mat-list-item href="#">Link 3</a>
+	</mat-nav-list>
+	<ng-select [items]="languages"
+	bindLabel="title" #langSelect
+	bindValue="unicode"
+	labelForId="languages" [clearable] = "false"
+	(change)="onSelectedLanguageChange($event)"
+	[virtualScroll]="true"  [(ngModel)]="selectedLanguage" class="languages-dropdown">
+	<ng-template ng-label-tmp let-item="item"
+	class = "languages-dropdown-template">
+	<span [ngClass] = "item.flag" class="languages-countries-flags"></span>
+	<span>{{item.title}}</span>
+</ng-template>
+<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm"
+class = "languages-dropdown-template">
+<span [ngClass] = "item.flag" class="languages-countries-flags"></span>
+<span [ngOptionHighlight]="search">{{item.title}}</span>
+</ng-template>
+</ng-select>
+</mat-sidenav>
+<mat-sidenav-content>
+	<mat-toolbar class="app-toolbar">
+		<div class="flex-container">
+			<div class="flex-item" *ngIf="isHandset$ | async">
+				<button 
+				type="button"
+				aria-label="Toggle sidenav"
+				mat-icon-button
+				(click)="drawer.toggle()"
+				*ngIf="isHandset$ | async">
+				<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+			</button>
+		</div>
+		<div class="flex-item">
+			<span>{{ 'HOME.TITLE' | translate:param }}</span>
+		</div>
+		<!--<div class="flex-item">
+			<label>
+				{{ 'HOME.SELECT' | translate }}
+				<select #langSelect (change)="translate.use(langSelect.value)">
+					<option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+				</select>
+				<mat-form-field>
+					<mat-select placeholder="{{ 'HOME.SELECT' | translate }}" #langSelect (change)="translate.use(langSelect.value)" [(value)]="selected">
+						<mat-option *ngFor="let lang of translate.getLangs()" [value]="lang">
+							{{ lang }}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</label>-->
+			<!--<select #langSelect (change)="translate.use(langSelect.value)">
+				<option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+			</select>
+			<button mat-button><span class="flag-icon flag-icon-gr flag-icon-squared"></span></button>-->
+			<!--<mat-menu #menu="matMenu">
+				<button mat-menu-item>
+					<mat-icon><span class="flag-icon flag-icon-fr"></span></mat-icon>
+					<span>French</span>
+				</button>
+				<button mat-menu-item>
+					<mat-icon><span class="flag-icon flag-icon-gb"></span></mat-icon>
+					<span>English</span>
+				</button>
+				<button mat-menu-item>
+					<mat-icon><span class="flag-icon flag-icon-de"></span></mat-icon>
+					<span>German</span>
+				</button>
+			</mat-menu>
+			<mat-select name = "icon">
+				<mat-option *ngFor="let icon of icons" [value]="icon.value">
+					<span class="flag-icon flag-icon-de"></span>
+				</mat-option>
+			</mat-select>
+			<!--<button mat-raised-button color="accent">
+				<mat-icon>mic</mat-icon>
+			</button>
+			<button mat-button>
+				<mat-icon>mic</mat-icon>
+			</button>
+			<button mat-icon-button>menu</button>
+		</div>-->
+	</div>
+</mat-toolbar>
+<router-outlet></router-outlet>
+</mat-sidenav-content>
+</mat-sidenav-container>
