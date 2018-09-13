@@ -17,6 +17,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {  MatSelectModule} from '@angular/material/select';
 import { NgSelectModule } from '@ng-select/ng-select';
 
+import { AuthenticationGuard } from './guards/authentication.guard';
+import { AuthenticationService } from './services/authentication.service';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -56,7 +59,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     }
   })
   ],
-  providers: [],
+  providers: [ AuthenticationGuard,
+  AuthenticationService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
